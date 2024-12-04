@@ -1,0 +1,301 @@
+/** sefty **/
+/* sefty */
+/** sefty **/
+
+@import url('https://fonts.googleapis.com/css?family=Bricolage+Grotesque&display=swap');
+
+:root {
+  --base-color: hsl(220, 0%, 1.5%);
+  --base-variant: hsl(220, 0%, 3%);
+  --background-color: hsl(220, 0%, 2.5%, 25%);
+  --button-background: hsl(220, 0%, 10%);
+  --primary-text: hsl(0, 0%, 90%);
+  --secondary-text: hsl(0, 0%, 60%);
+  --tertiary-text: hsl(0, 0%, 30%);
+}
+
+.light-mode {
+  --base-color: hsl(220, 0%, 95%);
+  --base-variant: hsl(220, 0%, 90%);
+  --background-color: hsl(220, 0%, 87.5%, 25%);
+  --button-background: hsl(220, 0%, 80%);
+  --primary-text: hsl(0, 0%, 10%);
+  --secondary-text: hsl(0, 0%, 40%);
+  --tertiary-text: hsl(0, 0%, 70%);
+}
+
+* {
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+body {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  color: var(--primary-text);
+  background-color: var(--base-color);
+  background: conic-gradient(from 90deg at 1px 1px, var(--base-color) 90deg, var(--base-variant) 0) 0 0/75px 75px;
+  margin: 0;
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+}
+
+#after-login {
+  display: none;
+  width: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  z-index: 2;
+}
+
+#current-song {
+  display: flex;
+  width: auto;
+  flex-direction: row;
+  text-align: center;
+  align-content: center;
+  gap: 2rem;
+  background: var(--background-color);
+  border-radius: 15px;
+  padding: 50px;
+}
+
+#queue {
+  display: flex;
+  width: auto;
+  flex-direction: row;
+  text-align: start;
+  align-content: center;
+  gap: 2rem;
+  background: var(--background-color);
+  border-radius: 15px;
+  padding: 50px;
+}
+
+#queue-list {
+  color: var(--secondary-text);
+  list-style: none;
+  line-height: 1.5rem;
+  font-size: 1.25rem;
+}
+
+#title-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: start;
+  gap: 0;
+}
+
+#album-cover {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 15px;
+}
+
+.title {
+  margin-left: -5px;
+  font-size: 5rem;
+  font-weight: bolder;
+}
+
+#desc {
+  font-size: 1.45rem;
+  font-weight: normal;
+  color: var(--secondary-text);
+}
+
+.icon {
+  color: var(--primary-text);
+  padding-right: 10px;
+  font-size: 1.25rem;
+}
+
+.redirect-button {
+  font-family: Bricolage Grotesque, sans-serif;
+  padding: 15px 20px;
+  border: 1px var(--button-background) solid;
+  border-radius: 15px;
+  font-size: 1.3rem;
+  background-color: var(--background-color);
+  color: var(--primary-text);
+  font-weight: bolder;
+  cursor: pointer;
+  overflow: hidden;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15em;
+  transition: all 0.3s ease;
+}
+
+.redirect-button:hover {
+  background-color: var(--base-variant);
+  border: 1px solid var(--tertiary-text)
+}
+
+#premium-info {
+  color: var(--tertiary-text);
+  position: fixed;
+  bottom: 0%;
+  right: 0%;
+  transform: translateX(-50%);
+  padding-bottom: 10px;
+  display: none;
+}
+
+#menu-button {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 9999;
+  background: none;
+  border: none;
+  color: var(--tertiary-text);
+}
+
+#popup-menu {
+  position: fixed;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  border: 1px var(--button-background) solid;
+  background-color: var(--background-color);
+  border-radius: 15px;
+  padding: 50px;
+  z-index: 9999;
+  display: none;
+  animation: fadeIn 0.5s forwards;
+}
+
+#profile-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+#profile-pic {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 100%;
+}
+
+#profile-status {
+  color: var(--secondary-text);
+}
+
+#options-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.menu-button {
+  font-family: Bricolage Grotesque, sans-serif;
+  padding: 15px 35px;
+  font-size: 1.25rem;
+  border-radius: 15px;
+  color: var(--primary-text);
+  border: none;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+#theme-switch {
+  background: var(--button-background)
+}
+
+#logout {
+  background: rgba(189, 1, 1, 0.527);
+}
+
+.background-blur {
+  filter: blur(10px) brightness(15%);
+  transition: all 0.5s;
+}
+
+#gradient {
+  width: 3000px;
+  height: 3000px;
+  background-image: radial-gradient(closest-side, rgba(255, 255, 255, 0.03), transparent);
+  position: fixed;
+  top: -15%;
+  animation: gradient 5s infinite ease-in-out alternate;
+}
+
+@keyframes gradient {
+  0% {
+    top: -15%;
+  }
+  50% {
+    top: -20%;
+  }
+  100% {
+    top: -15%;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+      flex-direction: column;
+      align-items: center;
+  }
+  #current-song, #queue {
+      flex-direction: column;
+      padding: 20px;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

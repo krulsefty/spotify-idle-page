@@ -1,0 +1,63 @@
+<!--- sefty --->
+<!-- sefty -->
+<!--- sefty --->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Spotify Idle Page</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <script defer src="js/app.js"></script>
+</head>
+
+<body>
+
+  <div id="gradient"></div>
+
+  <button class="fa-solid fa-bars icon" id="menu-button"></button>
+
+    <div id="popup-menu">
+      <div id="profile-container">
+        <img id="profile-pic">
+        <div id="profile-info">
+          <h1 id="profile-name"></h1>
+          <h3 id="profile-status"></h3>
+        </div>
+      </div>
+      <div id="options-container">
+        <button class="menu-button" id="theme-switch">Change Theme</button>
+        <button class="menu-button" id="logout">Logout</button>
+      </div>
+    </div>
+
+    <main>
+      <button class="redirect-button" id="login-button"><a class="fa-brands fa-spotify icon"></a>Login to
+        Spotify</button>
+
+      <div id="after-login">
+        <div id="current-song">
+          <img id="album-cover">
+          <div id="title-section">
+            <h1 class="title" id="song-title"></h1>
+            <h2 id="desc" class="darker-text"></h2>
+          </div>
+        </div>
+
+        <div id="queue">
+          <ul id="queue-list"></ul>
+        </div>
+      </div>
+
+      <p id="premium-info">The queue display feature is available only for Spotify Premium users. If you want to use it,
+        upgrade your account to Premium.</p>
+
+    </main>
+
+</body>
+
+</html>
