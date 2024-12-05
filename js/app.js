@@ -3,7 +3,7 @@
 /// sefty
 
 const clientId = 'a43aa0ff9fc54efcadfda8fea991461b'
-const redirectUri = 'http://127.0.0.1:5500/index.html'
+const redirectUri = 'https://spotify-idle-page.vercel.app'
 const scopes = 'user-read-playback-state user-read-currently-playing user-read-playback-position user-read-private user-top-read'
 
 let accessToken = ''
