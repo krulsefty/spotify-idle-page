@@ -7,8 +7,9 @@
 :root {
   --base-color: hsl(220, 0%, 1.5%);
   --base-variant: hsl(220, 0%, 3%);
-  --background-color: hsl(220, 0%, 2.5%, 25%);
+  --background-color: hsl(220, 0%, 2.5%, 40%);
   --button-background: hsl(220, 0%, 10%);
+  --highlight-color: hsl(220, 0%, 20%);
   --primary-text: hsl(0, 0%, 90%);
   --secondary-text: hsl(0, 0%, 60%);
   --tertiary-text: hsl(0, 0%, 30%);
@@ -17,11 +18,23 @@
 .light-mode {
   --base-color: hsl(220, 0%, 95%);
   --base-variant: hsl(220, 0%, 90%);
-  --background-color: hsl(220, 0%, 87.5%, 25%);
+  --background-color: hsl(220, 0%, 87.5%, 40%);
   --button-background: hsl(220, 0%, 80%);
+  --highlight-color: hsl(220, 0%, 70%);
   --primary-text: hsl(0, 0%, 10%);
-  --secondary-text: hsl(0, 0%, 40%);
-  --tertiary-text: hsl(0, 0%, 70%);
+  --secondary-text: hsl(0, 0%, 30%);
+  --tertiary-text: hsl(0, 0%, 50%);
+}
+
+.ultra-dark {
+  --base-color: hsl(220, 0%, 0%);
+  --base-variant: hsl(220, 0%, 1.5%);
+  --background-color: hsl(220, 0%, 2.5%, 40%);
+  --button-background: hsl(220, 0%, 5%);
+  --highlight-color: hsl(220, 0%, 15%);
+  --primary-text: hsl(0, 0%, 80%);
+  --secondary-text: hsl(0, 0%, 50%);
+  --tertiary-text: hsl(0, 0%, 20%);
 }
 
 * {
@@ -76,19 +89,30 @@ main {
   gap: 2rem;
   background: var(--background-color);
   border-radius: 15px;
-  padding: 50px;
+  padding: 40px;
 }
 
-#queue {
+#data-section {
   display: flex;
   width: auto;
+  flex-direction: column;
+  text-align: center;
+  align-content: center;
+  gap: 1rem;
+}
+
+#data-container {
+  display: flex;
+  width: auto;
+  height: 480px;
   flex-direction: row;
   text-align: start;
   align-content: center;
   gap: 2rem;
   background: var(--background-color);
   border-radius: 15px;
-  padding: 50px;
+  padding: 40px;
+  transition: 500ms all;
 }
 
 #queue-list {
@@ -96,6 +120,83 @@ main {
   list-style: none;
   line-height: 1.5rem;
   font-size: 1.25rem;
+  animation: fadeIn 500ms forwards;
+}
+
+#stats-container {
+  width: 510px;
+  display: none;
+  flex-direction: column;
+}
+
+#stats-time {
+  color: var(--tertiary-text);
+  position: fixed;
+  right: 0;
+  top: 2%;
+}
+
+.stats-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 15px;
+  width: 7rem;
+  text-align: center;
+}
+
+.stat-title {
+  color: var(--secondary-text);
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  display: inline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stat-img {
+  height: 7rem;
+  width: 7rem;
+  min-height: 7rem;
+  min-width: 7rem;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+#data-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls {
+  cursor: pointer;
+  transition: 500ms all;
+  width: 2.5rem;
+  height: 0.5rem;
+  border-radius: 15px;
+  border: none;
+  background: var(--button-background);
+}
+
+.chosen-control {
+  background: var(--highlight-color);
+}
+
+#queue-container, #stats-container {
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 #title-section {
@@ -211,7 +312,27 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 3.5rem;
+}
+
+#theme-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+#theme-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
+}
+
+#theme-title {
+  font-size: 1.5rem;
 }
 
 .menu-button {
@@ -225,8 +346,16 @@ main {
   cursor: pointer;
 }
 
-#theme-switch {
-  background: var(--button-background)
+#dark {
+  background-color: hsl(0, 0%, 15%);
+}
+
+#ultra-dark {
+  background-color: hsl(0, 0%, 5%);
+}
+
+#light {
+  background-color: hsl(220, 0%, 95%);
 }
 
 #logout {

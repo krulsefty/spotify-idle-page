@@ -3,8 +3,8 @@
 /// sefty
 
 const clientId = 'a43aa0ff9fc54efcadfda8fea991461b'
-const redirectUri = 'https://spotify-idle-page.vercel.app'
-const scopes = 'user-read-playback-state user-read-currently-playing user-read-playback-position user-read-private'
+const redirectUri = 'http://127.0.0.1:5500/index.html'
+const scopes = 'user-read-playback-state user-read-currently-playing user-read-playback-position user-read-private user-top-read'
 
 let accessToken = ''
 let currentSongId = null
@@ -24,7 +24,7 @@ function getAccessTokenFromUrl() {
 }
 
 async function fetchCurrentSong() {
-  if (!accessToken) return;
+  if (!accessToken) return
 
   const response = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
     headers: { Authorization: `Bearer ${accessToken}` }
@@ -75,7 +75,7 @@ async function fetchCurrentSong() {
       currentSongId = null
     }
   } else {
-    console.error('Error fetching song:', response.status, response.statusText)
+    console.error(response.status, response.statusText)
   }
 }
 
@@ -99,16 +99,16 @@ async function fetchQueue() {
   } else if (response.status === 403) {
     document.getElementById('premium-info').style = 'display: block'
   } else {
-    console.error('Error fetching queue:', response.status, response.statusText)
+    console.error(response.status, response.statusText)
   }
 }
 
 async function fetchUserProfile() {
-  if (!accessToken) return;
+  if (!accessToken) return
 
   const response = await fetch('https://api.spotify.com/v1/me', {
     headers: { Authorization: `Bearer ${accessToken}` }
-  });
+  })
 
   if (response.ok) {
     const data = await response.json()
@@ -119,47 +119,69 @@ async function fetchUserProfile() {
     document.getElementById('profile-pic').src = profileImage
 
     if (data.product === 'premium') {
-      document.getElementById('profile-status').textContent = 'Premium';
+      document.getElementById('profile-status').textContent = 'Premium'
     } else {
-      document.getElementById('profile-status').textContent = 'Free';
+      document.getElementById('profile-status').textContent = 'Free'
     }
   } else {
-    console.error('Error fetching user profile:', response.status, response.statusText)
+    console.error(response.status, response.statusText)
   }
 }
 
-
-async function runScript() {
-  if (accessToken) {
-    document.getElementById('menu-button').style.display = 'block'
-    document.getElementById('after-login').style.display = 'flex'
-    document.getElementById('login-button').style.display = 'none'
-    await fetchCurrentSong()
-    await fetchQueue()
-    await fetchUserProfile()
-  } else {
-    document.getElementById('menu-button').style.display = 'none'
-    document.getElementById('after-login').style.display = 'none'
-    document.getElementById('login-button').style.display = 'block'
+function truncateTitle(title, maxLength = 8) {
+  if (title.length > maxLength) {
+    return title.slice(0, maxLength) + '...'
   }
+  return title
 }
 
-getAccessTokenFromUrl()
-runScript()
-setInterval(runScript, 1000)
+async function fetchUserStats() {
+  if (!accessToken) return
 
-document.getElementById('logout').addEventListener('click', () => {
-  logout()
-})
+  try {
+    const artistResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=3&time_range=short_term', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
 
-function logout() {
-  accessToken = ''
+    const songResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=3&time_range=short_term', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
 
-  document.getElementById('menu-button').style.display = 'none'
-  document.getElementById('after-login').style.display = 'none'
-  document.getElementById('login-button').style.display = 'block'
-  document.getElementById('popup-menu').style.display = 'none'
-  document.querySelector('main').classList.remove('background-blur')
+    if (artistResponse.ok && songResponse.ok) {
+      const topArtists = await artistResponse.json()
+      const topSongs = await songResponse.json()
+
+      const artistElements = [
+        { img: 'first=artist-img', name: 'first-artist-name' },
+        { img: 'second=artist-img', name: 'second-artist-name' },
+        { img: 'third=artist-img', name: 'third-artist-name' },
+      ]
+
+      topArtists.items.forEach((artist, index) => {
+        if (artistElements[index]) {
+          document.getElementById(artistElements[index].img).src = artist.images[0]?.url || 'default-artist.jpg'
+          document.getElementById(artistElements[index].name).textContent = artist.name
+        }
+      })
+
+      const songElements = [
+        { img: 'first=song-img', name: 'first-song-name' },
+        { img: 'second=song-img', name: 'second-song-name' },
+        { img: 'third=song-img', name: 'third-song-name' },
+      ]
+
+      topSongs.items.forEach((song, index) => {
+        if (songElements[index]) {
+          document.getElementById(songElements[index].img).src = song.album.images[0]?.url || 'default-song.jpg'
+          document.getElementById(songElements[index].name).textContent = song.name
+        }
+      })
+    } else {
+      console.error(artistResponse.status, songResponse.status)
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 document.getElementById('menu-button').addEventListener('click', () => {
@@ -175,22 +197,140 @@ document.getElementById('menu-button').addEventListener('click', () => {
   }
 })
 
-let lightmode = localStorage.getItem("lightmode")
-const themeSwitch = document.getElementById("theme-switch")
+function logout() {
+  accessToken = ''
 
-const enableLightmode = () => {
-  document.body.classList.add("light-mode")
-  localStorage.setItem("lightmode", "active")
+  document.getElementById('menu-button').style.display = 'none'
+  document.getElementById('after-login').style.display = 'none'
+  document.getElementById('login-button').style.display = 'block'
+  document.getElementById('popup-menu').style.display = 'none'
+  document.querySelector('main').classList.remove('background-blur')
 }
 
-const disableLightmode = () => {
-  document.body.classList.remove("light-mode")
-  localStorage.setItem("lightmode", null)
+document.getElementById('logout').addEventListener('click', () => {
+  logout()
+})
+
+async function runScript() {
+  if (accessToken) {
+    document.getElementById('menu-button').style.display = 'block'
+    document.getElementById('after-login').style.display = 'flex'
+    document.getElementById('login-button').style.display = 'none'
+    await fetchCurrentSong()
+    await fetchQueue()
+    await fetchUserProfile()
+    await fetchUserStats()
+  } else {
+    document.getElementById('menu-button').style.display = 'none'
+    document.getElementById('after-login').style.display = 'none'
+    document.getElementById('login-button').style.display = 'block'
+  }
 }
 
-if (lightmode === "active") enableLightmode()
+getAccessTokenFromUrl()
+runScript()
+setInterval(runScript, 1000)
 
-themeSwitch.addEventListener("click", () => {
-  lightmode = localStorage.getItem("lightmode")
-  lightmode !== "active" ? enableLightmode() : disableLightmode()
+
+document.addEventListener("DOMContentLoaded", () => {
+  // dark mode
+  let darkmode = localStorage.getItem("darkmode")
+  const darkModeBtn = document.getElementById("dark")
+
+  const enableDarkMode = () => {
+    document.body.classList.add("dark-mode")
+    document.body.classList.remove("ultra-dark", "light-mode")
+    localStorage.setItem("darkmode", "active")
+    localStorage.setItem("ultradarkmode", null)
+    localStorage.setItem("lightmode", null)
+  }
+
+  if (darkmode === "active") enableDarkMode()
+
+  darkModeBtn?.addEventListener("click", () => {
+    darkmode = localStorage.getItem("darkmode")
+    if (darkmode !== "active") {
+      enableDarkMode()
+    }
+  })
+
+  // ultra dark mode
+  let ultradarkmode = localStorage.getItem("ultradarkmode")
+  const ultradarkModeBtn = document.getElementById("ultra-dark")
+
+  const enableUltraDarkMode = () => {
+    document.body.classList.add("ultra-dark")
+    document.body.classList.remove("dark-mode", "light-mode")
+    localStorage.setItem("ultradarkmode", "active")
+    localStorage.setItem("darkmode", null)
+    localStorage.setItem("lightmode", null)
+  }
+
+  if (ultradarkmode === "active") enableUltraDarkMode()
+
+  ultradarkModeBtn?.addEventListener("click", () => {
+    ultradarkmode = localStorage.getItem("ultradarkmode")
+    if (ultradarkmode !== "active") {
+      enableUltraDarkMode()
+    }
+  })
+
+  // light mode
+  let lightmode = localStorage.getItem("lightmode")
+  const lightModeBtn = document.getElementById("light")
+
+  const enableLightMode = () => {
+    document.body.classList.add("light-mode")
+    document.body.classList.remove("dark-mode", "ultra-dark")
+    localStorage.setItem("lightmode", "active")
+    localStorage.setItem("darkmode", null)
+    localStorage.setItem("ultradarkmode", null)
+  }
+
+  if (lightmode === "active") enableLightMode()
+
+  lightModeBtn?.addEventListener("click", () => {
+    lightmode = localStorage.getItem("lightmode")
+    if (lightmode !== "active") {
+      enableLightMode()
+    }
+  })
+})
+
+const queueContainer = document.getElementById('queue-list');
+const statsContainer = document.getElementById('stats-container');
+
+function showQueue() {
+  statsContainer.classList.remove('visible')
+  statsContainer.classList.add('fade-out');
+
+  queueContainer.classList.remove('fade-out')
+  queueContainer.classList.add('fade-in')
+}
+
+function showStats() {
+  queueContainer.classList.remove('visible')
+  queueContainer.classList.add('fade-out')
+
+  statsContainer.classList.remove('fade-out')
+  statsContainer.classList.add('fade-in')
+}
+
+// Example of adding event listeners for switching views
+document.getElementById('queue-button').addEventListener('click', showQueue);
+document.getElementById('stats-button').addEventListener('click', showStats);
+
+
+document.getElementById("stats-button").addEventListener("click", () => {
+  document.getElementById("queue-list").style.display = "none"
+  document.getElementById("stats-container").style.display = "flex"
+  document.getElementById("queue-button").classList.remove("chosen-control")
+  document.getElementById("stats-button").classList.add("chosen-control")
+})
+
+document.getElementById("queue-button").addEventListener("click", () => {
+  document.getElementById("queue-list").style.display = "block"
+  document.getElementById("stats-container").style.display = "none"
+  document.getElementById("queue-button").classList.add("chosen-control")
+  document.getElementById("stats-button").classList.remove("chosen-control")
 })

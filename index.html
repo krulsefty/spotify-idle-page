@@ -30,7 +30,14 @@
         </div>
       </div>
       <div id="options-container">
-        <button class="menu-button" id="theme-switch">Change Theme</button>
+        <div id="theme-container">
+          <h3 id="theme-title">Change Theme</h3>
+          <div id="theme-buttons">
+            <button class="menu-button" id="dark"></button>
+            <button class="menu-button" id="ultra-dark"></button>
+            <button class="menu-button" id="light"></button>
+          </div>
+        </div>
         <button class="menu-button" id="logout">Logout</button>
       </div>
     </div>
@@ -48,12 +55,55 @@
           </div>
         </div>
 
-        <div id="queue">
-          <ul id="queue-list"></ul>
+        <div id="data-section">
+          <div id="data-container">
+            <ul id="queue-list"></ul>
+            <div id="stats-container">
+              <h3 id="stats-time">(last 4 weeks)</h3>
+              <h1>Top Artists</h1>
+              <div class="stats-list" id="top-artists">
+                <div class="stat" id="first-artist">
+                  <img class="stat-img" id="first=artist-img">
+                  <h2 class="stat-title" id="first-artist-name"></h2>
+                </div>
+                <div class="stat" id="second-artist">
+                  <img class="stat-img" id="second=artist-img">
+                  <h2 class="stat-title" id="second-artist-name"></h2>
+                </div>
+                <div class="stat" id="third-artist">
+                  <img class="stat-img" id="third=artist-img">
+                  <h2 class="stat-title" id="third-artist-name"></h2>
+                </div>
+              </div>
+              <h1>Top Songs</h1>
+              <div class="stats-list" id="top-songs">
+                <div class="stat" id="first-song">
+                  <img class="stat-img" id="first=song-img">
+                  <h2 class="stat-title" id="first-song-name"></h2>
+                </div>
+                <div class="stat" id="second-song">
+                  <img class="stat-img" id="second=song-img">
+                  <h2 class="stat-title" id="second-song-name"></h2>
+                </div>
+                <div class="stat" id="third-song">
+                  <img class="stat-img" id="third=song-img">
+                  <h2 class="stat-title" id="third-song-name"></h2>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div id="data-controls">
+          <button class="controls chosen-control" id="queue-button"></button>
+          <button class="controls" id="stats-button"></button>
         </div>
+
       </div>
 
-      <p id="premium-info">The queue display feature is available only for Spotify Premium users. If you want to use it,
+
+      </div>
+
+      <p id="premium-info">The queue and stats display feature is available only for Spotify Premium users. If you want to use it,
         upgrade your account to Premium.</p>
 
     </main>
