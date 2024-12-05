@@ -316,9 +316,8 @@ function showStats() {
   statsContainer.classList.add('fade-in')
 }
 
-// Example of adding event listeners for switching views
-document.getElementById('queue-button').addEventListener('click', showQueue);
-document.getElementById('stats-button').addEventListener('click', showStats);
+document.getElementById('queue-button').addEventListener('click', showQueue)
+document.getElementById('stats-button').addEventListener('click', showStats)
 
 
 document.getElementById("stats-button").addEventListener("click", () => {
